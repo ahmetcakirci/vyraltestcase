@@ -23,7 +23,7 @@ git clone https://github.com/ahmetcakirci/vyraltestcase.git VyralTesttCase
 Eğer docker yoksa; https://docs.docker.com/ adresinden docker için gerekli kurulumları yapabilirsiniz.
 
 ```
-cd pathtestcase/
+cd vyraltestcase/
 make init sonra make up
 veya
 docker-compose up -d
@@ -47,85 +47,147 @@ sudo docker-compose exec php sh php artisan passport:install
 
 ## RESTful Api
 
-### 1. Sipariş Tümünü Listeleme
+### 1. Register
 
-| Tip | Değer |
-| --- | --- |
-| Method | GET |
-| Route | /api/order/lists |
-
-##### Örnek Curl İsteği
-```
-curl --location --request GET 'http://127.0.0.1:8022/api/order/lists' \
---header 'Content-Type: application/json'
-```
-
-### 2. Sipariş Görüntüleme
-
-| Tip | Değer |
-| --- | --- |
-| Method | GET |
-| Route | /api/order/{orderId} |
+| Tip | Değer         |
+| --- |---------------|
+| Method | POST          |
+| Route | /api/register |
 
 ##### Örnek Curl İsteği
 ```
-curl --location --request GET 'http://127.0.0.1:8022/api/order/1' \
---header 'Content-Type: application/json'
+curl --location --request POST 'http://127.0.0.1:9000/api/register' \
+--form 'name="ahmet"' \
+--form 'email="asdw@asd.com"' \
+--form 'password="aasdasda"' \
+--form 'twitter="sadsadsdsa"' \
+--form 'surname="eewr"' \
+--form 'cep_number="5343242333"'
 ```
 
-### 3. Sipariş Ekleme
+### 2. Login
 
-> Not: Ürünlerden stok bilgisini ekler.
+| Tip | Değer      |
+| --- |------------|
+| Method | POST       |
+| Route | /api/login |
+
+##### Örnek Curl İsteği
+```
+curl --location --request POST 'http://127.0.0.1:9000/api/login' \
+--form 'email="asdw@asd.com"' \
+--form 'password="aasdasda"'
+```
+
+### 3. SMS Doğrulama
+
+> Not: SMS Doğrumala işlemi yapan endpoint
 
 | Tip | Değer |
 | --- | --- |
 | Method | POST |
-| Route | /api/order |
+| Route | /api/sms_verify |
 
 ##### Örnek Curl İsteği
 ```
-curl --location --request POST 'http://127.0.0.1:8022/api/order' \
---header 'Authorization: Bearer 2343242' \
---form 'order_code="12345"' \
---form 'product_id="345345"' \
---form 'quantity="2"' \
---form 'address="Deneme Adres1"'
+curl --location --request POST 'http://127.0.0.1:9000/api/sms_verify' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NTliYzNlZi1lMWI5LTQ5NmYtYjlmYy1hY2ZjMjg3ZTExMjEiLCJqdGkiOiIxN2JjNGUzM2RiZmVmMDE4M2VkYjFmNjBmNjA4NGU4YjQyNzFhYTc0Yzg0MTZjMjI0MDI2NGUzZmEyNDM4MDZhMDEzNDM3ZjkxMTA1NmExMSIsImlhdCI6MTY0NTAxNDUzMy4zNTc1ODksIm5iZiI6MTY0NTAxNDUzMy4zNTc1OTMsImV4cCI6MTY3NjU1MDUzMy4zNTEwMDgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.EM4jwJYh7g3hLG4vwKJt9oMDMEKqJ4AkIB7PdmGkO8BVU3icS-RAkhDTpJ-RWo8-0W5HBRibgjuUEy4a5Ga43pzoJzPs5V_XxT_QBXidO4QIaZs65ungUcHUdtnMFezOINn4OSPPRVvLZ8dvmav2xiDbzBo3moxbE2gl9LMUbgX74Fvvv75XzTOokyZgNT08CgX_pkFDkUH8iPSEBRaoqnt0OyDJX51ipXYerwWdQBbdqWCuURKeMCwwDDgogLghlwmeWV6xLA5fA-h5bAqEXKrPh6ssUedzJVVlzZxvdbyzViyIu99-S4rTVr4UXx6JvzdAWOW-WAV5bQj_hycUSP4CqF68q2SEQI4s-oo_H-hQn5H83v21nm1w7MhGC7Ac0egIbkJvPSejPGJWS6kaIRifNjL4OF7CuH6sQ6s_nyANe44bVLejTA44oEnnne3p1xH9R8kjJ_go7AKtXTP3Rg9sNbZ2aspzHfq1B7i-c_cWFXqsKoVvY382Np-jv41GV_0sgAd-GGbB8hlevZci60cD74Q7UkRj9ldH9arrZuo_z_bvWPIlyyONwdH_qsY1coL7P6poixqz-8wudbU0ylj4ZGlae4YCHDqcJ6n-I2W6lo2t7P6uIVfG4txzDZ9MJNm2GJ_gXHHiL3d3CaE7lDRMTi9R_NmYwTXJb0PyQqs' \
+--header 'Accept: application/json' \
+--form 'verify_code="JHP3459K"'
 ```
 
-### 4. Sipariş Silme
+### 4. SMS Doğrulama Kod Gönderim
+> Not: SMS doğrulama için kod gönderimi yapan endpoint
 
-> Not: Ürünlerden stok bilgisini siler.
-
-| Tip | Değer |
-| --- | --- |
-| Method | DELETE |
-| Route | /api/order/{orderId} |
+| Tip | Değer         |
+| --- |---------------|
+| Method | POST          |
+| Route | /api/sms_send |
 
 ##### Örnek Curl İsteği
 ```
-curl --location --request DELETE 'http://127.0.0.1:8022/api/order/1' \
---header 'Content-Type: application/json'
+curl --location --request POST 'http://127.0.0.1:9000/api/sms_send' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NTliYzNlZi1lMWI5LTQ5NmYtYjlmYy1hY2ZjMjg3ZTExMjEiLCJqdGkiOiIxN2JjNGUzM2RiZmVmMDE4M2VkYjFmNjBmNjA4NGU4YjQyNzFhYTc0Yzg0MTZjMjI0MDI2NGUzZmEyNDM4MDZhMDEzNDM3ZjkxMTA1NmExMSIsImlhdCI6MTY0NTAxNDUzMy4zNTc1ODksIm5iZiI6MTY0NTAxNDUzMy4zNTc1OTMsImV4cCI6MTY3NjU1MDUzMy4zNTEwMDgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.EM4jwJYh7g3hLG4vwKJt9oMDMEKqJ4AkIB7PdmGkO8BVU3icS-RAkhDTpJ-RWo8-0W5HBRibgjuUEy4a5Ga43pzoJzPs5V_XxT_QBXidO4QIaZs65ungUcHUdtnMFezOINn4OSPPRVvLZ8dvmav2xiDbzBo3moxbE2gl9LMUbgX74Fvvv75XzTOokyZgNT08CgX_pkFDkUH8iPSEBRaoqnt0OyDJX51ipXYerwWdQBbdqWCuURKeMCwwDDgogLghlwmeWV6xLA5fA-h5bAqEXKrPh6ssUedzJVVlzZxvdbyzViyIu99-S4rTVr4UXx6JvzdAWOW-WAV5bQj_hycUSP4CqF68q2SEQI4s-oo_H-hQn5H83v21nm1w7MhGC7Ac0egIbkJvPSejPGJWS6kaIRifNjL4OF7CuH6sQ6s_nyANe44bVLejTA44oEnnne3p1xH9R8kjJ_go7AKtXTP3Rg9sNbZ2aspzHfq1B7i-c_cWFXqsKoVvY382Np-jv41GV_0sgAd-GGbB8hlevZci60cD74Q7UkRj9ldH9arrZuo_z_bvWPIlyyONwdH_qsY1coL7P6poixqz-8wudbU0ylj4ZGlae4YCHDqcJ6n-I2W6lo2t7P6uIVfG4txzDZ9MJNm2GJ_gXHHiL3d3CaE7lDRMTi9R_NmYwTXJb0PyQqs' \
+--header 'Accept: application/json'
 ```
 
+### 5. EMail Doğrulama kod gönderim
 
-### 5. Sipariş Güncelleme
+> Not: EMail doğrulama için kod gönderimi yapan endpoint.
 
-> Not: Ürünlerden stok bilgisini günceller.
-
-| Tip | Değer |
-| --- | --- |
-| Method | PUT |
-| Route | /api/order/{orderId} |
+| Tip | Değer           |
+| --- |-----------------|
+| Method | POST            |
+| Route | /api/email_send |
 
 ##### Örnek Curl İsteği
 ```
-curl --location --request PUT 'http://127.0.0.1:8022/order/1' \
---header 'Content-Type: application/x-www-form-urlencoded' \
---data-urlencode 'quantity=1' \
---data-urlencode 'address=werewr'
+curl --location --request POST 'http://127.0.0.1:9000/api/email_send' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NTliYzNlZi1lMWI5LTQ5NmYtYjlmYy1hY2ZjMjg3ZTExMjEiLCJqdGkiOiIxN2JjNGUzM2RiZmVmMDE4M2VkYjFmNjBmNjA4NGU4YjQyNzFhYTc0Yzg0MTZjMjI0MDI2NGUzZmEyNDM4MDZhMDEzNDM3ZjkxMTA1NmExMSIsImlhdCI6MTY0NTAxNDUzMy4zNTc1ODksIm5iZiI6MTY0NTAxNDUzMy4zNTc1OTMsImV4cCI6MTY3NjU1MDUzMy4zNTEwMDgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.EM4jwJYh7g3hLG4vwKJt9oMDMEKqJ4AkIB7PdmGkO8BVU3icS-RAkhDTpJ-RWo8-0W5HBRibgjuUEy4a5Ga43pzoJzPs5V_XxT_QBXidO4QIaZs65ungUcHUdtnMFezOINn4OSPPRVvLZ8dvmav2xiDbzBo3moxbE2gl9LMUbgX74Fvvv75XzTOokyZgNT08CgX_pkFDkUH8iPSEBRaoqnt0OyDJX51ipXYerwWdQBbdqWCuURKeMCwwDDgogLghlwmeWV6xLA5fA-h5bAqEXKrPh6ssUedzJVVlzZxvdbyzViyIu99-S4rTVr4UXx6JvzdAWOW-WAV5bQj_hycUSP4CqF68q2SEQI4s-oo_H-hQn5H83v21nm1w7MhGC7Ac0egIbkJvPSejPGJWS6kaIRifNjL4OF7CuH6sQ6s_nyANe44bVLejTA44oEnnne3p1xH9R8kjJ_go7AKtXTP3Rg9sNbZ2aspzHfq1B7i-c_cWFXqsKoVvY382Np-jv41GV_0sgAd-GGbB8hlevZci60cD74Q7UkRj9ldH9arrZuo_z_bvWPIlyyONwdH_qsY1coL7P6poixqz-8wudbU0ylj4ZGlae4YCHDqcJ6n-I2W6lo2t7P6uIVfG4txzDZ9MJNm2GJ_gXHHiL3d3CaE7lDRMTi9R_NmYwTXJb0PyQqs' \
+--header 'Accept: application/json'
 ```
 
-### 6. Postman Restful API Collection
+### 6. EMail Doğrulama 
+> Not: EMail doğrulama  yapan endpoint.
 
-> Not: PathInternet.postman_collection.json
+| Tip | Değer             |
+| --- |-------------------|
+| Method | POST              |
+| Route | /api/email_verify |
+
+##### Örnek Curl İsteği
+```
+curl --location --request POST 'http://127.0.0.1:9000/api/email_verify' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NTliYzNlZi1lMWI5LTQ5NmYtYjlmYy1hY2ZjMjg3ZTExMjEiLCJqdGkiOiIxN2JjNGUzM2RiZmVmMDE4M2VkYjFmNjBmNjA4NGU4YjQyNzFhYTc0Yzg0MTZjMjI0MDI2NGUzZmEyNDM4MDZhMDEzNDM3ZjkxMTA1NmExMSIsImlhdCI6MTY0NTAxNDUzMy4zNTc1ODksIm5iZiI6MTY0NTAxNDUzMy4zNTc1OTMsImV4cCI6MTY3NjU1MDUzMy4zNTEwMDgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.EM4jwJYh7g3hLG4vwKJt9oMDMEKqJ4AkIB7PdmGkO8BVU3icS-RAkhDTpJ-RWo8-0W5HBRibgjuUEy4a5Ga43pzoJzPs5V_XxT_QBXidO4QIaZs65ungUcHUdtnMFezOINn4OSPPRVvLZ8dvmav2xiDbzBo3moxbE2gl9LMUbgX74Fvvv75XzTOokyZgNT08CgX_pkFDkUH8iPSEBRaoqnt0OyDJX51ipXYerwWdQBbdqWCuURKeMCwwDDgogLghlwmeWV6xLA5fA-h5bAqEXKrPh6ssUedzJVVlzZxvdbyzViyIu99-S4rTVr4UXx6JvzdAWOW-WAV5bQj_hycUSP4CqF68q2SEQI4s-oo_H-hQn5H83v21nm1w7MhGC7Ac0egIbkJvPSejPGJWS6kaIRifNjL4OF7CuH6sQ6s_nyANe44bVLejTA44oEnnne3p1xH9R8kjJ_go7AKtXTP3Rg9sNbZ2aspzHfq1B7i-c_cWFXqsKoVvY382Np-jv41GV_0sgAd-GGbB8hlevZci60cD74Q7UkRj9ldH9arrZuo_z_bvWPIlyyONwdH_qsY1coL7P6poixqz-8wudbU0ylj4ZGlae4YCHDqcJ6n-I2W6lo2t7P6uIVfG4txzDZ9MJNm2GJ_gXHHiL3d3CaE7lDRMTi9R_NmYwTXJb0PyQqs' \
+--header 'Accept: application/json' \
+--form 'verify_code="CBO96ZHJ"'
+```
+### 7. Twitter kullanıcı feed okuma
+> Not: İlgili user idli userin twitter feedlerini okur endpoint.
+
+| Tip | Değer             |
+| --- |-------------------|
+| Method | POST              |
+| Route | /api/post_read |
+
+##### Örnek Curl İsteği
+```
+curl --location --request POST 'http://127.0.0.1:9000/api/post_read' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NTliYzNlZi1lMWI5LTQ5NmYtYjlmYy1hY2ZjMjg3ZTExMjEiLCJqdGkiOiIxN2JjNGUzM2RiZmVmMDE4M2VkYjFmNjBmNjA4NGU4YjQyNzFhYTc0Yzg0MTZjMjI0MDI2NGUzZmEyNDM4MDZhMDEzNDM3ZjkxMTA1NmExMSIsImlhdCI6MTY0NTAxNDUzMy4zNTc1ODksIm5iZiI6MTY0NTAxNDUzMy4zNTc1OTMsImV4cCI6MTY3NjU1MDUzMy4zNTEwMDgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.EM4jwJYh7g3hLG4vwKJt9oMDMEKqJ4AkIB7PdmGkO8BVU3icS-RAkhDTpJ-RWo8-0W5HBRibgjuUEy4a5Ga43pzoJzPs5V_XxT_QBXidO4QIaZs65ungUcHUdtnMFezOINn4OSPPRVvLZ8dvmav2xiDbzBo3moxbE2gl9LMUbgX74Fvvv75XzTOokyZgNT08CgX_pkFDkUH8iPSEBRaoqnt0OyDJX51ipXYerwWdQBbdqWCuURKeMCwwDDgogLghlwmeWV6xLA5fA-h5bAqEXKrPh6ssUedzJVVlzZxvdbyzViyIu99-S4rTVr4UXx6JvzdAWOW-WAV5bQj_hycUSP4CqF68q2SEQI4s-oo_H-hQn5H83v21nm1w7MhGC7Ac0egIbkJvPSejPGJWS6kaIRifNjL4OF7CuH6sQ6s_nyANe44bVLejTA44oEnnne3p1xH9R8kjJ_go7AKtXTP3Rg9sNbZ2aspzHfq1B7i-c_cWFXqsKoVvY382Np-jv41GV_0sgAd-GGbB8hlevZci60cD74Q7UkRj9ldH9arrZuo_z_bvWPIlyyONwdH_qsY1coL7P6poixqz-8wudbU0ylj4ZGlae4YCHDqcJ6n-I2W6lo2t7P6uIVfG4txzDZ9MJNm2GJ_gXHHiL3d3CaE7lDRMTi9R_NmYwTXJb0PyQqs' \
+--form 'user_id="1"'
+```
+
+### 8. Tüm kullanıcıların feedlerini okur
+> Not: Tüm userların twitter feedlerini okur endpoint.
+
+| Tip | Değer             |
+| --- |-------------------|
+| Method | POST              |
+| Route | /api/post_read_all |
+
+##### Örnek Curl İsteği
+```
+curl --location --request POST 'http://127.0.0.1:9000/api/post_read_all' \
+--header 'Accept: application/json' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NTliYzNlZi1lMWI5LTQ5NmYtYjlmYy1hY2ZjMjg3ZTExMjEiLCJqdGkiOiIxN2JjNGUzM2RiZmVmMDE4M2VkYjFmNjBmNjA4NGU4YjQyNzFhYTc0Yzg0MTZjMjI0MDI2NGUzZmEyNDM4MDZhMDEzNDM3ZjkxMTA1NmExMSIsImlhdCI6MTY0NTAxNDUzMy4zNTc1ODksIm5iZiI6MTY0NTAxNDUzMy4zNTc1OTMsImV4cCI6MTY3NjU1MDUzMy4zNTEwMDgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.EM4jwJYh7g3hLG4vwKJt9oMDMEKqJ4AkIB7PdmGkO8BVU3icS-RAkhDTpJ-RWo8-0W5HBRibgjuUEy4a5Ga43pzoJzPs5V_XxT_QBXidO4QIaZs65ungUcHUdtnMFezOINn4OSPPRVvLZ8dvmav2xiDbzBo3moxbE2gl9LMUbgX74Fvvv75XzTOokyZgNT08CgX_pkFDkUH8iPSEBRaoqnt0OyDJX51ipXYerwWdQBbdqWCuURKeMCwwDDgogLghlwmeWV6xLA5fA-h5bAqEXKrPh6ssUedzJVVlzZxvdbyzViyIu99-S4rTVr4UXx6JvzdAWOW-WAV5bQj_hycUSP4CqF68q2SEQI4s-oo_H-hQn5H83v21nm1w7MhGC7Ac0egIbkJvPSejPGJWS6kaIRifNjL4OF7CuH6sQ6s_nyANe44bVLejTA44oEnnne3p1xH9R8kjJ_go7AKtXTP3Rg9sNbZ2aspzHfq1B7i-c_cWFXqsKoVvY382Np-jv41GV_0sgAd-GGbB8hlevZci60cD74Q7UkRj9ldH9arrZuo_z_bvWPIlyyONwdH_qsY1coL7P6poixqz-8wudbU0ylj4ZGlae4YCHDqcJ6n-I2W6lo2t7P6uIVfG4txzDZ9MJNm2GJ_gXHHiL3d3CaE7lDRMTi9R_NmYwTXJb0PyQqs'
+```
+
+### 9. Fake Twitter Mock API 
+> Not: Twitter simule etmek için Nodejs ile oluşturulmuştur endpoint.
+
+| Tip    | Değer                       |
+|--------|-----------------------------|
+| URL    | http://127.0.0.1:3000/posts |
+| Method | GET                         |
+| Route  | /api/post_read_all          |
+
+##### Örnek Curl İsteği
+```
+curl --location --request GET 'http://localhost:3000/posts'
+```
+
+### 9. Postman Restful API Collection
+
+> Not: Vyral.postman_collection.json
 
