@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  php:
+    container_name: vyral_php
+    volumes:
+        - ./:/app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
+  db:
+    platform: linux/x86_64
+    container_name: vyral_db
+    image: mysql
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: admin
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: password123
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./storage/dbdata:/var/lib/mysql
+  json-server:
+    build:
+        context: ./json-server-docker
+        dockerfile: Dockerfile
+    command: npm run dev
+    ports:
+        - "3000:3000"
+    volumes:
+        - ./json-server-docker/db.js:/app/db.js
+        - ./json-server-docker/routes.json:/app/routes.json:delegated
+        - ./json-server-docker/middleware.js:/app/middleware.js:delegated
