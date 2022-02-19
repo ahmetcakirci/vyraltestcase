@@ -17,7 +17,8 @@ Repoyu vyraltestcase isimli klasöre klonluyoruz.
 ```
 git clone https://github.com/ahmetcakirci/vyraltestcase.git
 ```
-
+### 2.Composer
+Eğer composer yüklü değilse ;https://getcomposer.org/download/ bu adresten yükleme talimatlarına uyarak yükleme işlemi yapabilirsiniz
 ### 2. Docker
 
 Eğer docker yoksa; https://docs.docker.com/ adresinden docker için gerekli kurulumları yapabilirsiniz.
