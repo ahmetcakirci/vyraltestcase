@@ -26,13 +26,4 @@ Route::middleware('auth:api')->group(function ($router){
     Route::post("post_read_all", [\App\Http\Controllers\API\PostController::class, "readAll"]);
 });
 
-Route::post("login", [\App\Http\Controllers\DOC\ProjectsApiController::class, "login"]);
 
-Route::group([
-    'prefix' => 'v1',
-    'as' => 'api.',
-    'namespace' => 'DOC',
-    'middleware' => ['auth:api']
-], function () {
-    Route::apiResource('projects', 'ProjectsApiController');
-});
