@@ -37,7 +37,7 @@ docker-compose up -d
 Docker containerlarımız çalışınca artık laravel için veritabanını hazır hale getiriyoruz.
 
 ```
-composer update
+composer install
 sudo docker-compose exec php sh php artisan migrate
 sudo docker-compose exec php sh php artisan passport:install
 ```
