@@ -32,7 +32,6 @@ RUN docker-php-ext-install pdo pdo_mysql zip bcmath sockets\
 
 WORKDIR /app
 COPY . .
-# composer install
 
 CMD php artisan serve --host=0.0.0.0:9000
 EXPOSE 9000
