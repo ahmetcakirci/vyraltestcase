@@ -15,7 +15,7 @@ Bir sosyal feeder  RESTful Api servisidir.
 Repoyu vyraltestcase isimli klasöre klonluyoruz.
 
 ```
-git clone https://github.com/ahmetcakirci/vyraltestcase.git VyralTesttCase
+git clone https://github.com/ahmetcakirci/vyraltestcase.git
 ```
 
 ### 2. Docker
