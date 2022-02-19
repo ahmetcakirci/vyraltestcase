@@ -38,8 +38,9 @@ sudo docker-compose up -d
 Docker containerlarımız çalışınca artık laravel için veritabanını hazır hale getiriyoruz.
 
 ```
-sudo docker-compose exec php sh php artisan migrate
-sudo docker-compose exec php sh php artisan passport:install
+sudo docker-compose exec php /bin/sh
+php artisan migrate
+php artisan passport:install
 ```
 
 > Migration ile tüm tablolar oluşturuluyor, "posts" , "verifies","user" ve jwt auth diğer tablolar için örnek dataları veritabanına ekliyor.
