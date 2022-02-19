@@ -24,9 +24,9 @@ Eğer docker yoksa; https://docs.docker.com/ adresinden docker için gerekli kur
 
 ```
 cd vyraltestcase/
-make init sonra make up
+sudo make init
 veya
-docker-compose up -d
+sudo docker-compose up -d
 ```
 > Docker containerlarımızı hazır hale getiriyoruz.
 > - Laravel sanal web sunucumuz 9000 üzerinden yayın yapıyor.
