@@ -24,6 +24,7 @@ Eğer docker yoksa; https://docs.docker.com/ adresinden docker için gerekli kur
 
 ```
 cd vyraltestcase/
+composer install
 sudo make init
 veya
 sudo docker-compose up -d
@@ -37,7 +38,6 @@ sudo docker-compose up -d
 Docker containerlarımız çalışınca artık laravel için veritabanını hazır hale getiriyoruz.
 
 ```
-composer install
 sudo docker-compose exec php sh php artisan migrate
 sudo docker-compose exec php sh php artisan passport:install
 ```
